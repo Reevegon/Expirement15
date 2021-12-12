@@ -1,0 +1,62 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javafx15a;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
+/**
+ *
+ * @author Glen
+ */
+public class JavaFX15a extends Application {
+        @Override
+    public void start(Stage s) {
+        Canvas c=new Canvas(800,500);
+         GraphicsContext gc;
+         gc=c.getGraphicsContext2D();
+         ColorPicker cp=new ColorPicker();
+      //   gc.setStroke(Color.BLUE);
+         gc.setLineWidth(3);
+         cp.setValue(javafx.scene.paint.Color.BLUE);
+         cp.setOnAction(e->{
+            gc.setStroke(cp.getValue());
+        });
+
+StackPane root = new StackPane();//layout of Scene
+        
+        Scene scene = new Scene(root, 800, 500);//obj of Scene
+scene.setOnMousePressed(e->{
+    gc.beginPath();
+    gc.lineTo(e.getSceneX(),e.getSceneY());
+    gc.stroke();
+    
+});
+
+scene.setOnMouseDragged(e->{
+    gc.lineTo(e.getSceneX(),e.getSceneY());
+    gc.stroke();
+});
+
+root.getChildren().addAll(c,cp);
+s.setTitle("Canvas drawing");
+        s.setScene(scene);//impose Scene onto Stage
+        s.show();//make the stage visible
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+    
+}
